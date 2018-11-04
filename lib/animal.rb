@@ -16,6 +16,12 @@ class Animal
     @@all
   end
 
+  def self.getKingdom(doc)
+    table = doc.search('.biota')
+    trs = table.search('tr')
+    trs[6].search('a').text
+  end
+
   # Constructor -
   def self.new_from_wikipedia(url)
     animal = Animal.new
@@ -24,7 +30,7 @@ class Animal
     doc = Nokogiri::HTML(open(url))
 
     animal.name = doc.search("h1#firstHeading").text
-    animal.kingdom = doc.search("span.kingdom").text
+    animal.kingdom = self.getKingdom(doc)
     animal.phylum = doc.search("span.phylum").text
     animal.klass = doc.search("span.klass").text
     animal.order = doc.search("span.order").text
